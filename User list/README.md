@@ -1,84 +1,77 @@
-# Football Competitions
-
-*JSON API URL :*
-`https://jsonmock.hackerrank.com/api/football_competitions?page=<pageNumber>`
-
-## Expected Output for list
-
-`<li>Competition {name} won by {winner} in year {year}</li>`
+# User Lists
 
 ## Environment 
 
-- Angular CLI Version: 10.0.9
-- Angular Core Version: 10.0.9
+- Angular CLI Version: 10.0.4
+- Angular Core Version: 10.0.4
 - Node Version: 12.18.3
 - Default Port: 8000
 
 ## Application Demo:
 
-![](https://hrcdn.net/s3_pub/istreet-assets/1WAxxf03EtrUdnq3heRX2g/football.gif)
+![](https://hrcdn.net/s3_pub/istreet-assets/CgD5M0JuOd1ffgjGhwyPzQ/users-list.gif)
 
 ## Functionality Requirements
 
-The main aim is to get a paginated list of football competitions and render their details in a list. The component must have the following functionalities:
+There are 2 components in the app:
 
-- The component must get competitions by making an API GET call to URL `https://jsonmock.hackerrank.com/api/football_competitions?page=<pageNumber>` using the Angular HttpClient module. Here, `<pageNumber>` is the page number we want to get the data for.
+- DataForm component: This component is used to add a new item of type Song or Book to the list.
 
-- The response of the GET call will contain a ``total_pages`` field that denotes the number of pages of results available and a `data` field that is an array of competition records for the requested page. The sample format of the response is:
+- DataList component: A reusable component that is used to render the list of Songs and the list of Books. Accepts the appropriate List and the dataType (One of "Song" or "Book") as input.
+
+The app should have the following functionalities:
+
+- The user can add items to the book list or the song list from the same form. Adding an item in the form at the top should add it to the respective list below.
+
+- There are 3 required input fields - name, genre, creator, and a `type` input field having 2 options to choose if the current item being added is a book or a song.
+
+- For this challenge, you can assume that each item is uniquely identified by its name. Tests take care of testing with unique names only.
+
+- On choosing `Song`, render an extra input field `totalTime`. Initially, all fields should be empty.
+
+- Clicking on `Add` button should add the item to the respective list and clear all the input fields.
+
+- The DataList component renders each of book list and song list in a table having columns name, genre, creator of each item followed by a delete button. Clicking on the delete button should delete the respective item from the list. Song list has an extra column of `Time` to render `Total Time` information for the item.
+
+- Book item should be added to `<table data-test-id="book-table">` as a `<tr>`.
+
+- Song item should be added to `<table data-test-id="song-table">` as a `<tr>`.
+ 
+- The interface for an item is defined in the file `src/types/Item.ts` having the following structure:
 
 ```
-  {
-      "page": "1",
-      "per_page": 2,
-      "total": 2,
-      "`total_pages`": 1,
-      "data": [
-        {
-          "name": "English Premier League",
-          "country": "England",
-          "year": 2016,
-          "winner": "Chelsea",
-          "runnerup": "Tottenham Hotspur"
-        },
-        {
-          "name": "La Liga",
-          "country": "Spain",
-          "year": 2011,
-          "winner": "Real Madrid",
-          "runnerup": "FC Barcelona"
-        }
-    ]
+  interface Item {
+    name: string;
+    genre: string;
+    creator: string;
+    type: string;
+    totalTime?: number;
   }
 ```
 
-- On component mount, make a GET call to get the data for page 1 (i.e., API GET call to URL `https://jsonmock.hackerrank.com/api/football_competitions?page=1`.
-
-- Retrieve `total_pages` from the response and render pagination buttons corresponding to each page starting from 1 to `total_pages`. Each button must be rendered as `<button>{k}</button>`, where `{k}` is the page number the button corresponds to, for example `<button>1</button>`, `<button>2</button>`, and so on until `<button>{total_pages}</button>`.
-
-- All the buttons must be rendered in the section `<section data-test-id="page-number-buttons"></section>`.
-
-- Clicking on a page button must get records for the corresponding page number and render them. For example, clicking on button 3 must make an API GET call to URL `https://jsonmock.hackerrank.com/api/football_competitions?page=3`, get the data, and render it.
-
-- For the competitions returned by the API, you need to render the list `<ul data-test-id="football-competitions"></ul>`. This list should have a single `<li>` list item for each object in the array. The value of each `<li>` element should be `<li>Competition {name} won by {winner} in year {year}</li>` where {name}, {winner} and {year} are values retrieved from the corresponding competition object.
-
-- For example, in the above data example, there are 2 competition objects in the array, so there will be 2 `<li>` elements inside the `<ul>` element:
-    1. `<li>Competition English Premier League won by Chelsea in year 2016</li>`
-    2. `<li>Competition La Liga won by Real Madrid in year 2011</li>`
-
 ## Testing Requirements
 
-- The `<section>` containing all the buttons should have the data-test-id attribute `page-number-buttons`.
-
-- The `<ul>` should have data-test-id attribute `football-competitions`.
+- The input field for `name` has data-test-id attribute `app-input-name`.
+- The input field for `genre` has data-test-id attribute `app-input-genre`.
+- The input field for `creator` has data-test-id attribute `app-input-creator`.
+- The input field for `total time` has data-test-id attribute `app-input-time`.
+- The input field for type Book has data-test-id attribute `app-input-book-type`.
+- The input field for type Song has data-test-id attribute `app-input-song-type`.
+- The Add button has data-test-id attribute `add-button`.
+- The book table has data-test-id attribute `book-table`.
+- The song table has data-test-id attribute `song-table`.
+- Rows in a single table has data-test-id attribute `list-item-0`, `list-item-1` and so on.
+- The Cell having name has data-test-id attribute `item-name`.
+- The Cell having name has data-test-id attribute `item-name`.
+- The Cell having creator has data-test-id attribute `item-creator`.
+- The Cell having total time has data-test-id attribute `item-time`.
+- The Cell having delete button has data-test-id attribute `item-delete`.
 
 ## Project Specifications
 
-**Read Only Files**
-- src/tsconfig.spec.json
-- src/app/app.component.css
-- src/app/app.module.ts
+**Read-only Files**
 - src/app/app.component.spec.ts
-- src/app/footballCompetitions/footballCompetitions.component.spec.ts
+- src/app/app.module.ts
 
 **Commands**
 - run: 

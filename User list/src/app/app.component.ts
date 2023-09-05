@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Item} from "../types/Item";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Football Competitions';
+
+  Book: Item[] = [];
+  Song: Item[] = [];
+
+  constructor() {
+
+  }
+
+  ngOnInit() {
+
+  }
+
+  onItemAdded(item) {
+    if(item.type == 'Song')
+      this.Song.push(item);
+    else{
+      this.Book.push(item)
+    }
+  }
+
+
+  onItemDelete(item) {
+    console.log(item)
+  }
 }
