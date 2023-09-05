@@ -32,30 +32,31 @@ export class FootballCompetitions implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchFootball(1).then(
-      (response: ApiResponse) => {
+    this.fetchFootball(1).subscribe({
+      next: (response: ApiResponse) => {
         this.football = response;
         this.data = this.football.data;
         this.total_pages = Array(this.football.total_pages).fill(0);
       }
+    }
+      
     )
   }
   
 
   fetchFootball(page: number) {
-    return this.http.get(`https://jsonmock.hackerrank.com/api/football_competitions?page=${page}`).toPromise()
+    return this.http.get(`https://jsonmock.hackerrank.com/api/football_competitions?page=${page}`)
   }
 
   click(page: number) {
-    this.fetchFootball(page).then(
-      (response: ApiResponse) => {
+    this.fetchFootball(page).subscribe({
+      next: (response: ApiResponse) => {
         this.football = response;
         this.data = this.football.data;
         this.total_pages = Array(this.football.total_pages).fill(0);
       }
+    } 
     )
-
-    console.log(document.querySelector('football-competitions'));
     
   }
 
