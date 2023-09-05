@@ -7,6 +7,7 @@
   </section>
 
   <ul class="mt-50 styled" data-test-id="football-competitions">
-    <li  class="slide-up-fade-in py-10" *ngFor="let f of football?.data; let i = index">Competition {{f.name}} won by {{f.winner}} in year {{f.year}}</li>
+    <li  class="slide-up-fade-in py-10" *ngFor="let f of football?.data; let i = index">
+      Competition {{f.name}} won by {{f.winner}} in year {{f.year}}</li>
   </ul>
 </div>
